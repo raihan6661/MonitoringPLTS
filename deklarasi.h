@@ -52,4 +52,4 @@ float R2 = 7500.0; //7.5k ohm resistor (sesuai dengan nilai resistor di sensor)
 float arus = 0.0; //nilai arus
 float faktorKalibrasi = 2.40 / 0.000792; // faktor kalibrasi berdasarkan pengukuran
 
-int jadwalHarian, jadwalGabungan;
+int jadwalOFF, jadwalOn;

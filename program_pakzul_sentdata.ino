@@ -12,11 +12,11 @@ const unsigned long waterPumpInterval = 30000;
 
 BLYNK_WRITE(V1)
 {
-  jadwalHarian = param.asInt(); // assigning incoming value from pin V1 to a variable
+  jadwalOn = param.asInt(); // assigning incoming value from pin V1 to a variable
 }
 BLYNK_WRITE(V2)
 {
-  jadwalGabungan = param.asInt(); // assigning incoming value from pin V1 to a variable
+  jadwalOFF = param.asInt(); // assigning incoming value from pin V1 to a variable
 }
 
 void setup() {
@@ -63,35 +63,16 @@ void loop() {
     hasil = Vsensor / (R2 / (R1 + R2)); //hasil akhir
     arus = (Vsensor / R2) * faktorKalibrasi; // menghitung arus dengan faktor kalibrasi
 
-    if (hasil >= 11.5 || hasil <= 12.7){
+    if (hasil >= 11.5 || hasil <= 12.7 && jadwalOn == 1){
       digitalWrite(inverter, LOW);
-    }else if(hasil <= 11.1){
+    }
+    if(hasil <= 11.1 && jadwalOFF == 1){
       digitalWrite(inverter, HIGH);
+      Blynk.virtualWrite(V1, 0);
+      Blynk.virtualWrite(V2, 0);
+      jadwalOn = 0;
+      jadwalOFF = 0;
     }
-
-    Serial.println(jadwalHarian);
-    Serial.println(jadwalGabungan);
-    if(jadwalHarian == 1){
-      // if (currentMillis - SolenoidTime >= solenoidInterval) {
-      //   SolenoidTime = currentMillis;
-        digitalWrite(solenoid, LOW);
-        Blynk.virtualWrite(V1, 0);
-        jadwalHarian = 0;
-        // }
-    }else if(jadwalHarian == 0){
-      digitalWrite(solenoid, HIGH);
-    }
-
-    // if(jadwalGabungan == 1){
-    //   // if (currentMillis - WaterPumpTime >= waterPumpInterval) {
-    //   //   WaterPumpTime = currentMillis;
-    //   //   digitalWrite(solenoid, HIGH);
-    //     Blynk.virtualWrite(V2, 0);
-    //     jadwalGabungan = 0;
-    //     // }
-    // }else if(jadwalGabungan == 0){
-    //   digitalWrite(solenoid, LOW);
-    // }
 
     if (currentMillis - lastLcdUpdate >= lcdInterval) {
         lastLcdUpdate = currentMillis;
