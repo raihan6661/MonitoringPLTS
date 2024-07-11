@@ -63,10 +63,10 @@ void loop() {
     hasil = Vsensor / (R2 / (R1 + R2)); //hasil akhir
     arus = (Vsensor / R2) * faktorKalibrasi; // menghitung arus dengan faktor kalibrasi
 
-    if (hasil >= 11.5 || hasil <= 12.7 && jadwalOn == 1){
+    if (jadwalOn == 1){
       digitalWrite(inverter, LOW);
     }
-    if(hasil <= 11.1 && jadwalOFF == 1){
+    if(jadwalOFF == 1){
       digitalWrite(inverter, HIGH);
       Blynk.virtualWrite(V1, 0);
       Blynk.virtualWrite(V2, 0);
