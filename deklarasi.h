@@ -39,11 +39,15 @@ PZEM004Tv30 pzem(PZEM_SERIAL, PZEM_RX_PIN, PZEM_TX_PIN);
 PZEM004Tv30 pzem(PZEM_SERIAL);
 #endif
 
+//lcd
 LiquidCrystal_I2C lcd(0x27,20,4);
-#define solenoid 18
-#define waterPump 19
-#define inverter 5
+//relay
+#define relaySolenoid 18
+#define relayInverter 5
+#define relayWaktu 23
+#define relayPzem 13
 
+//sensor arus
 int tegangan = 39; // pin signal dari sensor masuk ke pin A0 arduino
 float Vsensor = 0.0; //nilai masukan sensor
 float hasil = 0.0; //nilai hasil rumus
@@ -51,5 +55,11 @@ float R1 = 30000.0; //30k ohm resistor (sesuai dengan nilai resistor di sensor)
 float R2 = 7500.0; //7.5k ohm resistor (sesuai dengan nilai resistor di sensor)
 float arus = 0.0; //nilai arus
 float faktorKalibrasi = 2.40 / 0.000792; // faktor kalibrasi berdasarkan pengukuran
+
+//flow
+double flow;
+int flowsensor = 0; 
+
+float voltage, current, power, energy, frequency, pf;
 
 int jadwalOFF, jadwalOn;
